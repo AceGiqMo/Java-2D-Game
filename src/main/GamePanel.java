@@ -55,9 +55,37 @@ public class GamePanel extends JPanel implements Runnable {
         gameThread.start();
     }
 
+    /**
+     * This method implements `run` method of the `Runnable` interface to start the thread
+     */
     @Override
     public void run() {
-    }
+        double drawInterval = Config.NANOSEC / Config.FPS;
+        double nextDrawTime = System.nanoTime() + drawInterval;
+
+        while (gameThread != null) {
+
+            update();
+            drawToTempScreen();
+            drawToScreen();
+
+            try {
+
+                double remainingTime = nextDrawTime - System.nanoTime();
+                remainingTime /= (Config.NANOSEC / Config.MILLISEC);      // Remaining time in milliseconds
+
+                if (remainingTime < 0) {
+                    remainingTime = 0;
+                }
+
+                Thread.sleep((long) remainingTime);
+                nextDrawTime += drawInterval;
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+}
 
     /**
      * This method sets full screen mode according to the size of the monitor

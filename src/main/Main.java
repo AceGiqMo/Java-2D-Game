@@ -9,7 +9,7 @@ public class Main {
         window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
-        window.setTitle("2D Test Game");
+        window.setTitle("Dream of the Rabbit");
         window.setUndecorated(true);
 
         GamePanel gamePanel = new GamePanel();
