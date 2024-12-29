@@ -1,0 +1,7 @@
+.vscode/
+.DS_Store
+
+out/**/.DS_Store
+src/**/.DS_Store
+out/**/*.class
+
