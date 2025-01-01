@@ -10,11 +10,14 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
+import entities.Ahmad;
+
 public class GamePanel extends JPanel implements Runnable {
 
     /* SCREEN SETTINGS */
-    private int screenWidth;
-    private int screenHeight;
+    private int screenWidth  = Config.SCREEN_WIDTH;
+    private int screenHeight = Config.SCREEN_HEIGHT;
+
     private int screenWidthFull;
     private int screenHeightFull;
 
@@ -26,6 +29,9 @@ public class GamePanel extends JPanel implements Runnable {
     /* TEMPORARY SCREEN */
     private BufferedImage tempScreen;
     private Graphics2D g2;
+
+    /* ENTITIES */
+    private Ahmad ahmad = new Ahmad(this, mouseH);
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -106,6 +112,7 @@ public class GamePanel extends JPanel implements Runnable {
      * This method updates all changes in the game process
      */
     public void update() {
+        ahmad.update();
     }
 
     /**
@@ -113,6 +120,8 @@ public class GamePanel extends JPanel implements Runnable {
      */
     public void drawToTempScreen() {
         g2.clearRect(0, 0, screenWidthFull, screenHeightFull);
+
+        ahmad.draw(g2);
     }
 
     /**
