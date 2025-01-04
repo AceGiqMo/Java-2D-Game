@@ -35,5 +35,8 @@ public class Config {
 
     public static final int AHMAD_FLY_SPEED = 4;
 
+    /* MATH CONSTANTS */
+    public static final double PI = 3.14159265358979;
+
 
 }
