@@ -6,6 +6,12 @@ public class Config {
     public static final int SCREEN_WIDTH  = 1280;
     public static final int SCREEN_HEIGHT = 720;
 
+    /* RENDERING SETTINGS */
+
+    // Angle (in radians) between the `x` axis and temporary screen diagonal
+    public static final double ANGLE_DIAG    = Math.atan(SCREEN_HEIGHT / SCREEN_WIDTH);
+    public static final double SCREEN_OFFSET = 10.0;
+
     /* GAMELOOP SETTINGS */
     static final int FPS      = 60;
     static final int NANOSEC  = 1000000000;
