@@ -1,11 +1,13 @@
 package mathtools;
 
-import main.Main;
+import main.GamePanel;
 import main.Config;
 
 import java.awt.geom.Point2D;
 
 public class LineTransformer {
+
+    private GamePanel gp;
 
     /* y = kx + b, where `k` is angleCoef and `b` is freeVar */
     private double angle = 0;
@@ -14,12 +16,17 @@ public class LineTransformer {
 
     private Matrix<Double> transformMatrix;
 
-    public LineTransformer() {
+    public LineTransformer(GamePanel gp) {
+        this.gp = gp;
+
         /*
          * There is no need to build transform matrix if the ratio of the full screen is the
          * same as the ratio of the temporary screen, so we just add an Identity matrix
          */
-        if (Config.SCREEN_WIDTH / Config.SCREEN_HEIGHT == Main.getWindow().getWidth() / Main.getWindow().getHeight()) {
+        double tempScreenRatio = Config.SCREEN_WIDTH / (double) Config.SCREEN_HEIGHT;
+        double fullScreenRatio = gp.getFullScreenWidth() / (double) gp.getFullScreenHeight();
+
+        if (tempScreenRatio == fullScreenRatio) {
             Double[][] transformMatrixArr = {
                                                 {1.0, 0.0},
                                                 {0.0, 1.0}
@@ -35,8 +42,8 @@ public class LineTransformer {
     private void buildTransformMatrix() {
         int c1 = Config.SCREEN_WIDTH / 2;
         int c2 = Config.SCREEN_HEIGHT / 2;
-        int w1 = Main.getWindow().getWidth() / 2;
-        int w2 = Main.getWindow().getHeight() / 2;
+        int w1 = gp.getFullScreenWidth() / 2;
+        int w2 = gp.getFullScreenHeight() / 2;
 
         /*
          * We want to solve the system of linear equations:
@@ -125,7 +132,16 @@ public class LineTransformer {
 
         try {
 
-            Vector2D dirVec = new Vector2D(cursorX - centerX, cursorY - centerY);
+            /*
+             * We change the sign of vector's `y` because the coordinate system of the
+             * graphic interface is gained by symmetry regarding the `x` axis of the original coordinate system.
+             *
+             * But here we consider that we work on the original coordinate system for convenience.
+             * (0, 0) is the center of the temporary screen (i.e. in the original basis),
+             * the reference point of the new basis coincides with the reference point
+             * of the original basis.
+             */
+            Vector2D dirVec = new Vector2D(cursorX - centerX, -(cursorY - centerY));
 
             Double[][] matrixInvArr             = transformMatrix.getInverse();
             Matrix<Double> transformMatrixInv   = new Matrix<Double>(matrixInvArr);
@@ -177,6 +193,14 @@ public class LineTransformer {
         }
 
         return new Point2D.Double(pointX, pointY);
+    }
 
+    /**
+     * This method returns the angle of the direction vector
+     *
+     * @return Angle value
+     */
+    public double getAngle() {
+        return angle;
     }
 }

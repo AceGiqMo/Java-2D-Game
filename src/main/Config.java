@@ -9,8 +9,17 @@ public class Config {
     /* RENDERING SETTINGS */
 
     // Angle (in radians) between the `x` axis and temporary screen diagonal
-    public static final double ANGLE_DIAG    = Math.atan(SCREEN_HEIGHT / SCREEN_WIDTH);
-    public static final double SCREEN_OFFSET = 10.0;
+    public static final double ANGLE_DIAG     = Math.atan(SCREEN_HEIGHT / SCREEN_WIDTH);
+    public static final double SCREEN_OFFSET  = 10.0;
+    public static final int    LINE_THICKNESS = 4;
+    public static final int    TEXT_THICKNESS = 2;
+
+    /* COLOR SETTINGS */
+
+    // Line color
+    public static final float LINE_HUE = 360.0f;
+    public static final float LINE_SAT = 0.21f;
+    public static final float LINE_VAL = 0.91f;
 
     /* GAMELOOP SETTINGS */
     static final int FPS      = 60;
@@ -27,9 +36,9 @@ public class Config {
 
     /* SPRITE SETTINGS */
     public static final int SPRITE_CHANGE_INTERVAL    = 8;
-    public static final int AHMAD_FLY_SPRITE_WIDTH    = 64;
+    public static final int AHMAD_FLY_SPRITE_WIDTH    = 128;
     public static final int AHMAD_FLY_SPRITE_HEIGHT   = 128;
-    public static final int AHMAD_STAND_SPRITE_WIDTH  = 100;
+    public static final int AHMAD_STAND_SPRITE_WIDTH  = 120;
     public static final int AHMAD_STAND_SPRITE_HEIGHT = 120;
     public static final int AHMAD_FLY_SPRITES         = 4;
     public static final int AHMAD_STAND_SPRITES       = 4;

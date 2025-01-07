@@ -31,7 +31,7 @@ public class GamePanel extends JPanel implements Runnable {
     private Graphics2D g2;
 
     /* ENTITIES */
-    private Ahmad ahmad = new Ahmad(this, mouseH);
+    private Ahmad ahmad;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -51,6 +51,8 @@ public class GamePanel extends JPanel implements Runnable {
     public void setUpGame() {
         tempScreen = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB_PRE);
         g2 = (Graphics2D) tempScreen.getGraphics();
+
+        ahmad = new Ahmad(this, mouseH);
     }
 
     /**
@@ -106,6 +108,24 @@ public class GamePanel extends JPanel implements Runnable {
         /* GET FULL SCREEN WIDTH AND HEIGHT */
         screenWidthFull  = Main.getWindow().getWidth();
         screenHeightFull = Main.getWindow().getHeight();
+    }
+
+    /**
+     * This method returns the width of the full screen
+     *
+     * @return Full screen width
+     */
+    public int getFullScreenWidth() {
+        return screenWidthFull;
+    }
+
+    /**
+     * This method returns the height of the full screen
+     *
+     * @return Full screen height
+     */
+    public int getFullScreenHeight() {
+        return screenHeightFull;
     }
 
     /**
