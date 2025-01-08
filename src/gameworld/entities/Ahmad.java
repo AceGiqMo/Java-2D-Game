@@ -1,4 +1,4 @@
-package entities;
+package gameworld.entities;
 
 import java.io.IOException;
 
@@ -15,13 +15,18 @@ import main.Config;
 import main.GamePanel;
 import main.MouseHandler;
 
+import mathtools.SolidArea;
 import mathtools.LineTransformer;
 import mathtools.ImageRotator;
 
-public class Ahmad extends Entity {
+import gameworld.Rotatable;
+
+public class Ahmad extends Entity implements Rotatable {
 
     private GamePanel gp;
     private MouseHandler mouseH;
+
+    private SolidArea solidArea;
 
     private LineTransformer dirLine;
     private Point2D         dirPoint;
@@ -55,6 +60,7 @@ public class Ahmad extends Entity {
         standSpritesRotated = new BufferedImage[Config.AHMAD_STAND_SPRITES];
 
         setDefaultValues();
+        setSolidArea();
         setSprites();
 
     }
@@ -67,7 +73,6 @@ public class Ahmad extends Entity {
         screenY = Config.SCREEN_HEIGHT / 2 - Config.AHMAD_FLY_SPRITE_HEIGHT / 2;
 
         speed     = Config.AHMAD_FLY_SPEED;
-        angleCoef = Double.POSITIVE_INFINITY;      // tan(pi / 2 - 0) = tan(pi / 2) = infinity
         state     = AhmadState.FLY;
         angle     = 0;
 
@@ -82,6 +87,22 @@ public class Ahmad extends Entity {
         dirLine.rebuilt(mousePos, ahmadPos);
 
         dirPoint = dirLine.getPointOutside();
+    }
+
+    public final void setSolidArea() {
+        Point2D vertex1 = new Point2D.Double(Config.SCREEN_WIDTH / 2 + Config.AHMAD_VERTEX_1_X,
+                                             Config.SCREEN_HEIGHT / 2 + Config.AHMAD_VERTEX_1_Y);
+        Point2D vertex2 = new Point2D.Double(Config.SCREEN_WIDTH / 2 + Config.AHMAD_VERTEX_2_X,
+                                             Config.SCREEN_HEIGHT / 2 + Config.AHMAD_VERTEX_2_Y);
+        Point2D vertex3 = new Point2D.Double(Config.SCREEN_WIDTH / 2 + Config.AHMAD_VERTEX_3_X,
+                                             Config.SCREEN_HEIGHT / 2 + Config.AHMAD_VERTEX_3_Y);
+        Point2D vertex4 = new Point2D.Double(Config.SCREEN_WIDTH / 2 + Config.AHMAD_VERTEX_4_X,
+                                             Config.SCREEN_HEIGHT / 2 + Config.AHMAD_VERTEX_4_Y);
+
+        Point2D[] vertices = {vertex1, vertex2, vertex3, vertex4};
+
+        solidArea = new SolidArea(vertices);
+
     }
 
     public final void setSprites() {
@@ -123,6 +144,20 @@ public class Ahmad extends Entity {
         }
     }
 
+    public final void rotate() {
+        /* We apply rotation to every sprite and edit `flySpritesRotated` array */
+        for (int i = 0; i < Config.AHMAD_FLY_SPRITES; i++) {
+            ImageRotator spriteToRotate = new ImageRotator(flySprites[i]);
+
+            /* The argument is negative, because of specifics of the interface's coordinate system */
+            spriteToRotate.rotate(-angle);
+            flySpritesRotated[i] = spriteToRotate.getImage();
+        }
+
+        /* We rotate the vertices of base position */
+        solidArea.rotate(-angle, new Point2D.Double(Config.SCREEN_WIDTH / 2, Config.SCREEN_HEIGHT / 2));
+    }
+
     public final void update() {
         spriteCounter++;
 
@@ -156,19 +191,13 @@ public class Ahmad extends Entity {
             dirLine.rebuilt(mousePos, ahmadPos);
 
             dirPoint = dirLine.getPointOutside();
-            angle    = dirLine.getAngle();
+
+            /* Since basically Ahmad's sprite's direction angle is 90 degrees, its relative angle is PI / 2 - angle */
+            angle    = dirLine.getAngle() - Config.PI / 2;
         }
 
         if (mouseH.isPressed()) {
-
-            /* We apply rotation to every sprite and edit `flySpritesRotated` array */
-            for (int i = 0; i < Config.AHMAD_FLY_SPRITES; i++) {
-                ImageRotator spriteToRotate = new ImageRotator(flySprites[i]);
-
-                /* Since basically Ahmad is already rotated by 90 degrees, we rotate our images by PI / 2 - angle */
-                spriteToRotate.rotate(Config.PI / 2 - angle);
-                flySpritesRotated[i] = spriteToRotate.getImage();
-            }
+            rotate();
         }
 
         currentSprite = flySpritesRotated[flySpritesIndex];
@@ -197,6 +226,12 @@ public class Ahmad extends Entity {
                     Config.AHMAD_FLY_SPRITE_HEIGHT,
                     null
         );
+
+        solidArea.draw(g2);
+    }
+
+    public final SolidArea getSolidArea() {
+        return solidArea;
     }
 }
 

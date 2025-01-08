@@ -35,11 +35,13 @@ public class Config {
     static final int FRAME_RATE   = 44100;
 
     /* SPRITE SETTINGS */
+    public static final int AHMAD_SPRITES_SCALE = 2;
+
     public static final int SPRITE_CHANGE_INTERVAL    = 8;
-    public static final int AHMAD_FLY_SPRITE_WIDTH    = 128;
-    public static final int AHMAD_FLY_SPRITE_HEIGHT   = 128;
-    public static final int AHMAD_STAND_SPRITE_WIDTH  = 120;
-    public static final int AHMAD_STAND_SPRITE_HEIGHT = 120;
+    public static final int AHMAD_FLY_SPRITE_WIDTH    = 64 * AHMAD_SPRITES_SCALE;
+    public static final int AHMAD_FLY_SPRITE_HEIGHT   = 64 * AHMAD_SPRITES_SCALE;
+    public static final int AHMAD_STAND_SPRITE_WIDTH  = 60 * AHMAD_SPRITES_SCALE;
+    public static final int AHMAD_STAND_SPRITE_HEIGHT = 60 * AHMAD_SPRITES_SCALE;
     public static final int AHMAD_FLY_SPRITES         = 4;
     public static final int AHMAD_STAND_SPRITES       = 4;
     public static final int SUPER_AHMAD_FLY_SPRITES   = 4;
@@ -49,6 +51,16 @@ public class Config {
     public static final int AHMAD_INITIAL_MAP_Y    = 0;
 
     public static final int AHMAD_FLY_SPEED = 4;
+
+    /* ENTITIES SOLID AREA SETTINGS */
+    public static final int AHMAD_VERTEX_1_X = -8 * AHMAD_SPRITES_SCALE;
+    public static final int AHMAD_VERTEX_1_Y = 26 * AHMAD_SPRITES_SCALE;
+    public static final int AHMAD_VERTEX_2_X = 8 * AHMAD_SPRITES_SCALE;
+    public static final int AHMAD_VERTEX_2_Y = 26 * AHMAD_SPRITES_SCALE;
+    public static final int AHMAD_VERTEX_3_X = 8 * AHMAD_SPRITES_SCALE;
+    public static final int AHMAD_VERTEX_3_Y = -26 * AHMAD_SPRITES_SCALE;
+    public static final int AHMAD_VERTEX_4_X = -8 * AHMAD_SPRITES_SCALE;
+    public static final int AHMAD_VERTEX_4_Y = -26 * AHMAD_SPRITES_SCALE;
 
     /* MATH CONSTANTS */
     public static final double PI = 3.14159265358979;

@@ -1,4 +1,4 @@
-package entities;
+package gameworld.entities;
 
 import java.awt.Graphics2D;
 
@@ -15,7 +15,6 @@ public abstract class Entity {
     protected int speed;
 
     protected double angle;          // In radians
-    protected double angleCoef;      // Angle coefficient (basically, tan(pi/2 - angle))
 
     /**
      * This method fills the field of the entity

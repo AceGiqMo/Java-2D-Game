@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
-import entities.Ahmad;
+import gameworld.entities.Ahmad;
 
 public class GamePanel extends JPanel implements Runnable {
 
