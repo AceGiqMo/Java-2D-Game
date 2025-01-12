@@ -1,65 +1,29 @@
 package gameworld.entities;
 
-import java.awt.Graphics2D;
+import gameworld.Component;
+import mathtools.SolidArea;
 
-public abstract class Entity {
+public abstract class Entity extends Component {
 
-    /* The position of the entity on the screen */
-    protected int screenX;
-    protected int screenY;
-
-    /* The position of the entity regarding the map */
-    protected int mapX;
-    protected int mapY;
-
-    protected int speed;
-
-    protected double angle;          // In radians
+    protected SolidArea solidArea;
 
     /**
-     * This method fills the field of the entity
+     * This method sets a solid area for an entity, consisting of a few points
      */
-    public abstract void setDefaultValues();
+    protected abstract void setSolidArea();
 
-    /**
-     * This method updates the state of the entity
-     */
-    public abstract void update();
-
-    /**
-     * This method draws the entity
-     */
-    public abstract void draw(Graphics2D g2);
-
-    /**
-     * This method returns x position on the screen of the entity
-     * @return x integer
-     */
-    public final int getScreenX() {
-        return screenX;
+    public final SolidArea getSolidArea() {
+        return solidArea;
     }
 
     /**
-     * This method returns y position on the screen of the entity
-     * @return y integer
+     * This method updates position of a solid area of the entity on the screen
+     * whenever the camera position changes
+     *
+     * @param xDiff Difference of x
+     * @param yDiff Difference of y
      */
-    public final int getScreenY() {
-        return screenY;
-    }
-
-    /**
-     * This method returns x position on the map of the entity
-     * @return x integer
-     */
-    public final int getMapX() {
-        return mapX;
-    }
-
-    /**
-     * This method returns y position on the map of the entity
-     * @return y integer
-     */
-    public final int getMapY() {
-        return mapY;
+    public final void updateSolidAreaScreenPos(double xDiff, double yDiff) {
+        solidArea.move(-xDiff, yDiff);
     }
 }

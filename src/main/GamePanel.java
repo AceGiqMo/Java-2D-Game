@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
 import gameworld.entities.Ahmad;
+import gameworld.MapManager;
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -30,8 +31,8 @@ public class GamePanel extends JPanel implements Runnable {
     private BufferedImage tempScreen;
     private Graphics2D g2;
 
-    /* ENTITIES */
-    private Ahmad ahmad;
+    /* MAP MANAGER */
+    private MapManager mapManager;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -52,7 +53,9 @@ public class GamePanel extends JPanel implements Runnable {
         tempScreen = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB_PRE);
         g2 = (Graphics2D) tempScreen.getGraphics();
 
-        ahmad = new Ahmad(this, mouseH);
+        Ahmad ahmad = new Ahmad(this, mouseH);
+        mapManager = new MapManager(this, ahmad);
+
     }
 
     /**
@@ -132,7 +135,7 @@ public class GamePanel extends JPanel implements Runnable {
      * This method updates all changes in the game process
      */
     public void update() {
-        ahmad.update();
+        mapManager.update();
     }
 
     /**
@@ -140,8 +143,7 @@ public class GamePanel extends JPanel implements Runnable {
      */
     public void drawToTempScreen() {
         g2.clearRect(0, 0, screenWidthFull, screenHeightFull);
-
-        ahmad.draw(g2);
+        mapManager.draw(g2);
     }
 
     /**
